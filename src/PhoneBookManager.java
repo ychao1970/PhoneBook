@@ -3,6 +3,17 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.io.*;
 
+/*
+ * this class is used to handle data import/export into input/output file
+ * handle search, delete data event
+ *
+ * 
+ * @author  YueYang Yu  (EARL MARCH PUBLIC SCHOOL)
+ * @version 1.0
+ * @since   2017-01-22
+ *  
+ */
+
 class PhoneBookManager {
 	private final File dataFile = new File("src/inputPhoneBook.dat");
 	private final File outdataFile = new File("src/outputPhoneBook.dat");
@@ -10,15 +21,19 @@ class PhoneBookManager {
 
 	static PhoneBookManager inst = null;
 
+	/* create phonebook manager object and return the object */
 	public static PhoneBookManager createManagerInst() {
 		if (inst == null)
 			inst = new PhoneBookManager();
 		return inst;
 	}
 
+	/* empty constructor */
 	private PhoneBookManager() {
 
 	}
+
+	/* search entry base on name */
 
 	public String searchData(String name) {
 		PhoneInfo info = search(name);
@@ -28,6 +43,7 @@ class PhoneBookManager {
 			return info.toString();
 	}
 
+	/* search entry base on phone number */
 	public String searchPhone(String phone) {
 		PhoneInfo info = searchPhoneNumber(phone);
 		if (info == null)
@@ -35,6 +51,8 @@ class PhoneBookManager {
 		else
 			return info.toString();
 	}
+
+	/* common method to search entry base on any condition */
 
 	public HashSet<PhoneInfo> searchAny(String srcString, String srcType) {
 		HashSet<PhoneInfo> infoSearch = new HashSet<PhoneInfo>();
@@ -56,6 +74,7 @@ class PhoneBookManager {
 		return infoSearch;
 	}
 
+	/* common method to delete entry base on any required condition */
 	public boolean deleteData(String name) {
 		Iterator<PhoneInfo> itr = infoStorage.iterator();
 		while (itr.hasNext()) {
@@ -68,6 +87,7 @@ class PhoneBookManager {
 		return false;
 	}
 
+	/* common method to search entry base on name */
 	private PhoneInfo search(String name) {
 		Iterator<PhoneInfo> itr = infoStorage.iterator();
 		while (itr.hasNext()) {
@@ -78,6 +98,7 @@ class PhoneBookManager {
 		return null;
 	}
 
+	/* common method to search entry base on phoneNumber */
 	private PhoneInfo searchPhoneNumber(String phone) {
 		Iterator<PhoneInfo> itr = infoStorage.iterator();
 		while (itr.hasNext()) {
@@ -88,7 +109,9 @@ class PhoneBookManager {
 		return null;
 	}
 
+	/* method to store current data into export output data file */
 	public void storeToFile() {
+		/* use try to catch exception */
 		try {
 			FileOutputStream file = new FileOutputStream(outdataFile);
 			ObjectOutputStream out = new ObjectOutputStream(file);
@@ -102,9 +125,11 @@ class PhoneBookManager {
 		}
 	}
 
+	/* method to read entry from input data file */
 	public void readFromFile() {
 		if (dataFile.exists() == false)
 			return;
+		/* use try to catch exception */
 		try {
 			FileInputStream file = new FileInputStream(dataFile);
 			ObjectInputStream in = new ObjectInputStream(file);
@@ -125,6 +150,7 @@ class PhoneBookManager {
 		}
 	}
 
+	/* method to print the table in current memory */
 	public void printInfoStorage() throws IOException {
 		Iterator<PhoneInfo> itr = infoStorage.iterator();
 		while (itr.hasNext())
@@ -132,6 +158,7 @@ class PhoneBookManager {
 
 	}
 
+	/* method to store current data into export output data file */
 	public void printPhoneBookTable() throws IOException {
 		PrintPhoneBook frame = new PrintPhoneBook(infoStorage);
 		frame.setVisible(true);

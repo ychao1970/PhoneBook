@@ -3,6 +3,17 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
 
+/*
+ * this class is for mouse click event to update teacher entry into database
+ * verify input data valid or not
+ * send proper error message to info textArea when invalid data input
+ * add input data into database after verify all input data is valid
+ * 
+ * @author  YueYang Yu  (EARL MARCH PUBLIC SCHOOL)
+ * @version 1.0
+ * @since   2017-01-22
+ *  
+ */
 class TeacherUpdateEvent extends MouseAdapter {
 	JTextField nameField;
 	JTextField majorField;
@@ -11,6 +22,7 @@ class TeacherUpdateEvent extends MouseAdapter {
 	JTextField phoneField;
 	JTextArea textArea;
 
+	/* Initialize class attribute */
 	public TeacherUpdateEvent(JTextField name, JTextField school, JTextField grade, JTextField age, JTextField phone) {
 		nameField = name;
 		schoolField = school;
@@ -20,6 +32,7 @@ class TeacherUpdateEvent extends MouseAdapter {
 
 	}
 
+	/* Override mouse click event */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		boolean isUpdate = false;
@@ -33,21 +46,27 @@ class TeacherUpdateEvent extends MouseAdapter {
 		String age = ageField.getText();
 		String type = "teacher";
 
+		/* create phone book manager object */
 		PhoneBookManager manager = PhoneBookManager.createManagerInst();
 		StringBuilder infoBoard = new StringBuilder("you have add ");
 
+		/* verify input name is valid or not */
 		if (name.length() > 30 || name.length() <= 0) {
 			infoBoard.append("you input teacher name " + name + " is too long, longer than 30 or is null \n");
 			PhoneBook.infoTextArea.append(infoBoard.toString());
 			PhoneBook.infoTextArea.append("\n");
 			dataValid = false;
 		}
+
+		/* verify input school name is valid or not */
 		if (school.length() > 30 || school.length() <= 0) {
 			infoBoard.append("you input teacher school name " + school + " is too long, longer than 30 or is null \n");
 			PhoneBook.infoTextArea.append(infoBoard.toString());
 			PhoneBook.infoTextArea.append("\n");
 			dataValid = false;
 		}
+
+		/* verify input grade is valid or not */
 		try {
 			if (Integer.parseInt(grade) > 18 || Integer.parseInt(grade) <= 0) {
 				infoBoard.append("you input grade " + grade + " is invalid \n");
@@ -62,12 +81,16 @@ class TeacherUpdateEvent extends MouseAdapter {
 			System.out.println("input age is not valid interger");
 			dataValid = false;
 		}
-		if (phone.length() > 12 || phone.length() <= 0) {
+
+		/* verify input phone number is valid or not */
+		if (phone.length() > 20 || phone.length() <= 0) {
 			infoBoard.append("you input teacher phone number " + phone + " is too long, longer than 12 or is null\n");
 			PhoneBook.infoTextArea.append(infoBoard.toString());
 			PhoneBook.infoTextArea.append("\n");
 			dataValid = false;
 		}
+
+		/* verify input age is valid or not */
 		try {
 			if (Integer.parseInt(age) < 18 || Integer.parseInt(age) > 100) {
 				infoBoard.append("you input teacher age " + age + " is invalid \n");
@@ -95,6 +118,7 @@ class TeacherUpdateEvent extends MouseAdapter {
 			dataValid = false;
 		}
 
+		/* process input data if all are valid */
 		if (dataValid) {
 			info = new PhoneInfo(name, phone, school, grade, age, type);
 			/*
@@ -123,12 +147,12 @@ class TeacherUpdateEvent extends MouseAdapter {
 			PhoneBook.infoTextArea.append("\n");
 		}
 
+		/* Send proper message to info text area after update data */
 		if (isUpdate) {
 			PhoneBook.infoTextArea.append("input data has been updated successfully\n");
 			try {
 				manager.printInfoStorage();
 			} catch (IOException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
 		} else {

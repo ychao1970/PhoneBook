@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import java.awt.Image;
 
 import javax.swing.JFrame;
@@ -24,10 +23,20 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.awt.Font;
 
+/*
+ * this class is mainFrame GUI for phoneBookManagement, GUI is created using windowsbulider plugin in Eclipse.
+ * Event listening and process is written by java 
+ * 
+ * @author  YueYang Yu  (EARL MARCH PUBLIC SCHOOL)
+ * @version 1.0
+ * @since   2017-01-22
+ *  
+ */
+
 public class PhoneBook extends JFrame {
 
 	/**
-	 * 
+	 * define private variable in this class
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -42,7 +51,7 @@ public class PhoneBook extends JFrame {
 	private JTextField studentSchoolTextField;
 	private JTextField studentPhoneTextField;
 	private JTextField studentGradeTextField;
-	public static JTextArea infoTextArea;
+	public static JTextArea infoTextArea; /* define class attribute */
 	private JTextField teacherAgeTextField;
 	private JTextField studentAgeTextField;
 	private JScrollPane infoPanel;
@@ -50,23 +59,7 @@ public class PhoneBook extends JFrame {
 	private JTextField textType;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PhoneBook frame = new PhoneBook();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
+	 * Constructor to create the frame with designed model
 	 */
 	public PhoneBook() {
 
@@ -95,20 +88,21 @@ public class PhoneBook extends JFrame {
 		deletePanel.setBorder(new TitledBorder(null, "DELETE", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		infoPanel = new JScrollPane();
-		infoPanel.setBounds(449, 5, 403, 336);
+		infoPanel.setBounds(449, 5, 403, 344);
 		infoPanel.setName("NAME");
 		infoPanel.setBackground(Color.LIGHT_GRAY);
 		infoPanel.setViewportBorder(
 				new TitledBorder(null, "INFOMRATION BOARD", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		JPanel exportPanel = new JPanel();
-		exportPanel.setBounds(449, 347, 408, 125);
+		exportPanel.setBounds(444, 383, 408, 89);
 		exportPanel.setBackground(new Color(245, 222, 179));
 		exportPanel
 				.setBorder(new TitledBorder(null, "IMPORT/EXPORT", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		JButton exportDataButton = new JButton("EXPORT DATA TO FILE");
 		exportDataButton.setToolTipText("click to export infoStorage into output file");
+		/* Mouse listening event to export data into output data file */
 		exportDataButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -125,6 +119,8 @@ public class PhoneBook extends JFrame {
 
 		JButton importDataButton = new JButton("IMPORT DATA FROM FILE");
 		importDataButton.setToolTipText("click to import data from input datafile into infoStroge");
+
+		/* Mouse listening event to import data from input data file */
 		importDataButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -140,11 +136,11 @@ public class PhoneBook extends JFrame {
 				.addGroup(gl_exportPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_exportPanel.createSequentialGroup().addGap(6).addComponent(exportDataButton))
 						.addComponent(importDataButton))
-				.addContainerGap(95, Short.MAX_VALUE)));
+				.addContainerGap(97, Short.MAX_VALUE)));
 		gl_exportPanel.setVerticalGroup(gl_exportPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_exportPanel.createSequentialGroup().addGap(11).addComponent(importDataButton)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(exportDataButton)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+				.addGroup(gl_exportPanel.createSequentialGroup().addComponent(importDataButton)
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(exportDataButton).addContainerGap(23,
+								Short.MAX_VALUE)));
 		exportPanel.setLayout(gl_exportPanel);
 
 		JLabel deleteNameLabel = new JLabel("NAME");
@@ -156,7 +152,10 @@ public class PhoneBook extends JFrame {
 		deleteNameTextField.setColumns(10);
 
 		JButton btnDelete = new JButton("DELETE");
+		btnDelete.setForeground(Color.RED);
 		btnDelete.setToolTipText("delete entry base on name");
+
+		/* Mouse listening event to delete entry which has the name */
 		btnDelete.addMouseListener((new DeleteEventHandler(deleteNameTextField, infoTextArea)));
 
 		btnDelete.setOpaque(true);
@@ -169,7 +168,7 @@ public class PhoneBook extends JFrame {
 		addPanel.add(tabbedPane);
 
 		JPanel teacherPanel = new JPanel();
-		tabbedPane.addTab("teacher", null, teacherPanel, null);
+		tabbedPane.addTab("Teacher", null, teacherPanel, null);
 		teacherPanel.setLayout(null);
 
 		JLabel teacherNamePanel = new JLabel("NAME");
@@ -211,7 +210,7 @@ public class PhoneBook extends JFrame {
 		teacherPanel.add(teacherSchoolTextField);
 
 		teacherPhoneTextField = new JTextField();
-		teacherPhoneTextField.setToolTipText("phone number string < 12 byte");
+		teacherPhoneTextField.setToolTipText("phone number string < 20 byte");
 		teacherPhoneTextField.setBounds(94, 93, 130, 26);
 		teacherPhoneTextField.setColumns(10);
 		teacherPanel.add(teacherPhoneTextField);
@@ -224,6 +223,8 @@ public class PhoneBook extends JFrame {
 
 		JButton buttonAddTeacher = new JButton("ADD");
 		buttonAddTeacher.setToolTipText("add tearcher entry");
+
+		/* Mouse listening event to add teacher entry */
 		buttonAddTeacher.addMouseListener((new TeacherAddEvent(teacherNameTextField, teacherSchoolTextField,
 				teacherMajorTextField, teacherAgeTextField, teacherPhoneTextField)));
 
@@ -239,6 +240,7 @@ public class PhoneBook extends JFrame {
 		buttonUpdateTeacher.setBackground(new Color(0, 128, 0));
 		teacherPanel.add(buttonUpdateTeacher);
 
+		/* Mouse listening event to update teacher entry */
 		buttonUpdateTeacher.addMouseListener((new TeacherUpdateEvent(teacherNameTextField, teacherSchoolTextField,
 				teacherMajorTextField, teacherAgeTextField, teacherPhoneTextField)));
 
@@ -295,7 +297,7 @@ public class PhoneBook extends JFrame {
 		StudentPanel.add(studentSchoolTextField);
 
 		studentPhoneTextField = new JTextField();
-		studentPhoneTextField.setToolTipText("phone number need to be String <30 byte");
+		studentPhoneTextField.setToolTipText("phone number String <20 byte");
 		studentPhoneTextField.setColumns(10);
 		studentPhoneTextField.setBounds(97, 94, 130, 26);
 		StudentPanel.add(studentPhoneTextField);
@@ -314,6 +316,8 @@ public class PhoneBook extends JFrame {
 
 		JButton buttonAddStudent = new JButton("ADD");
 		buttonAddStudent.setToolTipText("add student entry");
+
+		/* Mouse listening event to add student entry */
 		buttonAddStudent.addMouseListener((new StudentAddEvent(studentNameTextField, studentSchoolTextField,
 				studentGradeTextField, studentAgeTextField, studentPhoneTextField)));
 
@@ -324,6 +328,8 @@ public class PhoneBook extends JFrame {
 
 		JButton buttonUpdateStudent = new JButton("UPDATE");
 		buttonUpdateStudent.setToolTipText("update existing student entry");
+
+		/* Mouse listening event to update teacher entry */
 		buttonUpdateStudent.addMouseListener((new StudentUpdateEvent(studentNameTextField, studentSchoolTextField,
 				studentGradeTextField, studentAgeTextField, studentPhoneTextField)));
 
@@ -334,6 +340,8 @@ public class PhoneBook extends JFrame {
 
 		JButton buttonClearStudent = new JButton("CLEAR");
 		buttonClearStudent.setToolTipText("clear current GUI input");
+
+		/* Mouse listening event to clear student input in textField */
 		buttonClearStudent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -341,6 +349,7 @@ public class PhoneBook extends JFrame {
 				studentSchoolTextField.setText("");
 				studentPhoneTextField.setText("");
 				studentGradeTextField.setText("");
+				studentAgeTextField.setText("");
 			}
 		});
 		buttonClearStudent.setOpaque(true);
@@ -349,14 +358,14 @@ public class PhoneBook extends JFrame {
 		StudentPanel.add(buttonClearStudent);
 
 		txtName = new JTextField();
-		txtName.setToolTipText("enter name");
+		txtName.setToolTipText("enter name to search");
 		txtName.setBounds(66, 29, 101, 26);
 		txtName.setName("Name");
 		txtName.setInheritsPopupMenu(true);
 		txtName.setColumns(10);
 
 		textSchool = new JTextField();
-		textSchool.setToolTipText("key in phone number");
+		textSchool.setToolTipText("key in school name to search");
 		textSchool.setBounds(66, 66, 101, 26);
 		textSchool.setName("Phone");
 		textSchool.setInheritsPopupMenu(true);
@@ -364,6 +373,8 @@ public class PhoneBook extends JFrame {
 
 		JButton btnSearchName = new JButton("Search by Name");
 		btnSearchName.setToolTipText("search entry by name");
+
+		/* Mouse listening event to search by Name */
 		btnSearchName.addMouseListener((new SearchAnyEvent(txtName, infoTextArea, "name")));
 
 		btnSearchName.setBounds(179, 29, 128, 29);
@@ -383,6 +394,8 @@ public class PhoneBook extends JFrame {
 		searchPanel.add(schoolLabel);
 
 		JLabel yueyangPictureLabel = new JLabel("");
+
+		/* show up imgae on the GUI */
 		ImageIcon imageIcon = new ImageIcon(
 				new ImageIcon("src/yueyangyu2.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
 
@@ -396,6 +409,8 @@ public class PhoneBook extends JFrame {
 
 		JButton btnSearchBySchool = new JButton("Search by School");
 		btnSearchBySchool.setToolTipText("search entry by school name");
+
+		/* Mouse listening event to search by school name */
 		btnSearchBySchool.addMouseListener((new SearchAnyEvent(textSchool, infoTextArea, "school")));
 
 		btnSearchBySchool.setOpaque(true);
@@ -408,14 +423,16 @@ public class PhoneBook extends JFrame {
 		searchPanel.add(lblType);
 
 		textType = new JTextField();
-		textType.setToolTipText("key in phone number");
+		textType.setToolTipText("key in student or teacher to search");
 		textType.setName("Type");
 		textType.setInheritsPopupMenu(true);
 		textType.setColumns(10);
 		textType.setBounds(66, 99, 101, 26);
 		searchPanel.add(textType);
 
-		JButton btnSearchBytype = new JButton("Search byType");
+		JButton btnSearchBytype = new JButton("Search by Type");
+
+		/* Mouse listening event to search by type, teacher or student */
 		btnSearchBytype.addMouseListener((new SearchAnyEvent(textType, infoTextArea, "type")));
 
 		btnSearchBytype.setToolTipText("search entry by type");
@@ -423,8 +440,6 @@ public class PhoneBook extends JFrame {
 		btnSearchBytype.setBackground(new Color(0, 128, 0));
 		btnSearchBytype.setBounds(179, 99, 128, 29);
 		searchPanel.add(btnSearchBytype);
-		// searchPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new
-		// Component[]{txtName}));
 		contentPane.add(infoPanel);
 
 		infoTextArea = new JTextArea();
@@ -438,12 +453,13 @@ public class PhoneBook extends JFrame {
 		btnPrintOutPhone.setFont(new Font("Lucida Grande", Font.BOLD, 16));
 		btnPrintOutPhone.setOpaque(true);
 		btnPrintOutPhone.setBackground(new Color(0, 128, 0));
+
+		/* Mouse listening event to print whole database into table */
 		btnPrintOutPhone.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PhoneBookManager manager = PhoneBookManager.createManagerInst();
 				try {
-					// manager.printInfoStorage();
 					manager.printPhoneBookTable();
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -452,5 +468,23 @@ public class PhoneBook extends JFrame {
 		});
 		btnPrintOutPhone.setBounds(329, 495, 200, 44);
 		contentPane.add(btnPrintOutPhone);
+
+		JButton btnClearInformationBoard = new JButton("CLEAR INFORMATION BOARD");
+
+		/*
+		 * Mouse listening event to clear information board once the button is
+		 * clicked
+		 */
+		btnClearInformationBoard.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				infoTextArea.setText("");
+			}
+		});
+		btnClearInformationBoard.setOpaque(true);
+		btnClearInformationBoard.setForeground(Color.RED);
+		btnClearInformationBoard.setBackground(Color.ORANGE);
+		btnClearInformationBoard.setBounds(625, 346, 227, 29);
+		contentPane.add(btnClearInformationBoard);
 	}
 }
