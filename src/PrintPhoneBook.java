@@ -1,5 +1,4 @@
 
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.ArrayList;
@@ -28,23 +27,25 @@ public class PrintPhoneBook extends JFrame {
 	private JTable table;
 	private ArrayList<String[]> arrayList = new ArrayList<String[]>();
 
-
 	HashSet<PhoneInfo> infoStorage = new HashSet<PhoneInfo>();
 
 	public PrintPhoneBook(HashSet<PhoneInfo> infoStorage) {
-		Iterator<PhoneInfo> itr=infoStorage.iterator();
-		while(itr.hasNext()) {
-			PhoneInfo curInfo=itr.next();
-			String[] a = {curInfo.name, curInfo.type, curInfo.school,curInfo.grade,curInfo.age,curInfo.phoneNumber};
+		Iterator<PhoneInfo> itr = infoStorage.iterator();
+		while (itr.hasNext()) {
+			PhoneInfo curInfo = itr.next();
+			String[] a = { curInfo.name, curInfo.type, curInfo.school, curInfo.grade, curInfo.age,
+					curInfo.phoneNumber };
 			arrayList.add(a);
-			
+
 		}
-		String[][] phoneBookList = (String [][])arrayList.toArray(new String[0][0]);
+		String[][] phoneBookList = (String[][]) arrayList.toArray(new String[0][0]);
 		PrintPhoneBookJtable(phoneBookList);
 	}
+
 	/**
 	 * Create the table frame.
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public void PrintPhoneBookJtable(String[][] phoneBookList) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -53,26 +54,21 @@ public class PrintPhoneBook extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(UIManager.getBorder("TableHeader.cellBorder"));
 		scrollPane.setBounds(0, 0, 732, 515);
 		contentPane.add(scrollPane);
-		
+
 		table = new JTable();
 		table.setRowHeight(20);
 		table.setGridColor(new Color(0, 0, 0));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setForeground(new Color(0, 0, 255));
 		table.setBackground(new Color(220, 220, 220));
-		table.setModel(new DefaultTableModel(
-			phoneBookList,
-			new String[] {
-				"Name", "Type", "School", "Grade", "Age","phone number"
-			}
-		));
+		table.setModel(new DefaultTableModel(phoneBookList,
+				new String[] { "Name", "Type", "School", "Grade", "Age", "phone number" }));
 		scrollPane.setViewportView(table);
-		
 
 	}
 }

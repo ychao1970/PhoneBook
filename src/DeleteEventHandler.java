@@ -2,7 +2,6 @@
 import javax.swing.*;
 import java.awt.event.*;
 
-
 class DeleteEventHandler extends MouseAdapter {
 	JTextField delField;
 	JTextArea textArea;
@@ -19,7 +18,8 @@ class DeleteEventHandler extends MouseAdapter {
 		boolean isDeleted = manager.deleteData(name);
 		if (isDeleted) {
 			PhoneBook.infoTextArea.append("entry name " + name + " has been removed successfully\n");
-//			textArea.append("entry name " + name + " has been removed successfully\n");
+			// textArea.append("entry name " + name + " has been removed
+			// successfully\n");
 		} else {
 			PhoneBook.infoTextArea.append("entry name " + name + " Remove Failed: the name does not exist.\n");
 		}
