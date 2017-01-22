@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 
@@ -12,24 +11,13 @@ import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
-import javax.swing.JScrollBar;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JToggleButton;
-import javax.swing.JSplitPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JTree;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
@@ -37,14 +25,18 @@ import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.awt.Font;
 
 public class PhoneBook extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtName;
-	private JTextField textPhone;
+	private JTextField textSchool;
 	private JTextField deleteNameTextField;
-	private JTable table;
 	private JTextField teacherNameTextField;
 	private JTextField teacherSchoolTextField;
 	private JTextField teacherPhoneTextField;
@@ -58,7 +50,7 @@ public class PhoneBook extends JFrame {
 	private JTextField studentAgeTextField;
 	private JScrollPane infoPanel;
 	private JLabel teacherAgeLabel;
-
+	private JTextField textType;
 
 
 	
@@ -91,18 +83,18 @@ public class PhoneBook extends JFrame {
 		setContentPane(contentPane);
 		
 		JPanel searchPanel = new JPanel();
-		searchPanel.setBounds(11, 11, 420, 116);
+		searchPanel.setBounds(11, 5, 420, 139);
 		searchPanel.setBackground(new Color(30, 144, 255));
 		searchPanel.setBorder(new TitledBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), 
 				"SEARCH", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "SEARCH", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		JPanel addPanel = new JPanel();
-		addPanel.setBounds(11, 139, 420, 224);
+		addPanel.setBounds(11, 162, 420, 219);
 		addPanel.setBackground(new Color(255, 255, 0));
 		addPanel.setBorder(new TitledBorder(null, "ADD/UPDATE", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		JPanel deletePanel = new JPanel();
-		deletePanel.setBounds(11, 369, 420, 63);
+		deletePanel.setBounds(11, 393, 420, 79);
 		deletePanel.setBackground(new Color(255, 182, 193));
 		deletePanel.setBorder(new TitledBorder(null, "DELETE", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
@@ -113,19 +105,12 @@ public class PhoneBook extends JFrame {
 		infoPanel.setViewportBorder(new TitledBorder(null, "INFOMRATION BOARD", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		JPanel exportPanel = new JPanel();
-		exportPanel.setBounds(449, 347, 408, 105);
+		exportPanel.setBounds(449, 347, 408, 125);
 		exportPanel.setBackground(new Color(245, 222, 179));
 		exportPanel.setBorder(new TitledBorder(null, "IMPORT/EXPORT", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		JScrollPane tablePanel = new JScrollPane();
-		tablePanel.setBounds(11, 458, 846, 103);
-		tablePanel.setBackground(new Color(143, 188, 143));
-		tablePanel.setViewportBorder(new TitledBorder(null, "PhoneBook Print Table", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
-		table = new JTable();
-		tablePanel.setViewportView(table);
-		
 		JButton exportDataButton = new JButton("EXPORT DATA TO FILE");
+		exportDataButton.setToolTipText("click to export infoStorage into output file");
 		exportDataButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -141,6 +126,7 @@ public class PhoneBook extends JFrame {
 		});
 		
 		JButton importDataButton = new JButton("IMPORT DATA FROM FILE");
+		importDataButton.setToolTipText("click to import data from input datafile into infoStroge");
 		importDataButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -177,10 +163,12 @@ public class PhoneBook extends JFrame {
 		deletePanel.add(deleteNameLabel);
 		
 		deleteNameTextField = new JTextField();
+		deleteNameTextField.setToolTipText("enter name will be deleted");
 		deletePanel.add(deleteNameTextField);
 		deleteNameTextField.setColumns(10);
 		
 		JButton btnDelete = new JButton("DELETE");
+		btnDelete.setToolTipText("delete entry base on name");
 		btnDelete.addMouseListener((new DeleteEventHandler(deleteNameTextField, infoTextArea)));
 
 		btnDelete.setOpaque(true);
@@ -201,11 +189,13 @@ public class PhoneBook extends JFrame {
 		teacherPanel.add(teacherNamePanel);
 		
 		teacherAgeTextField = new JTextField();
+		teacherAgeTextField.setToolTipText("teacher age interger (24-99)");
 		teacherAgeTextField.setBounds(94, 121, 130, 26);
 		teacherPanel.add(teacherAgeTextField);
 		teacherAgeTextField.setColumns(10);
 		
 		teacherNameTextField = new JTextField();
+		teacherNameTextField.setToolTipText("teacher name String < 30 byte");
 		teacherNameTextField.setBounds(94, 5, 130, 26);
 		teacherNameTextField.setColumns(10);
 		teacherPanel.add(teacherNameTextField);
@@ -227,21 +217,25 @@ public class PhoneBook extends JFrame {
 		teacherPanel.add(teacherAgeLabel);
 		
 		teacherSchoolTextField = new JTextField();
+		teacherSchoolTextField.setToolTipText("school name String < 30 byte");
 		teacherSchoolTextField.setBounds(94, 36, 130, 26);
 		teacherSchoolTextField.setColumns(10);
 		teacherPanel.add(teacherSchoolTextField);
 		
 		teacherPhoneTextField = new JTextField();
+		teacherPhoneTextField.setToolTipText("phone number string < 12 byte");
 		teacherPhoneTextField.setBounds(94, 93, 130, 26);
 		teacherPhoneTextField.setColumns(10);
 		teacherPanel.add(teacherPhoneTextField);
 		
 		teacherMajorTextField = new JTextField();
+		teacherMajorTextField.setToolTipText("grade interger (1-12)");
 		teacherMajorTextField.setBounds(94, 61, 130, 26);
 		teacherMajorTextField.setColumns(10);
 		teacherPanel.add(teacherMajorTextField);
 		
 		JButton buttonAddTeacher = new JButton("ADD");
+		buttonAddTeacher.setToolTipText("add tearcher entry");
 		buttonAddTeacher.addMouseListener((new TeacherAddEvent(teacherNameTextField,teacherSchoolTextField,
 				teacherMajorTextField,teacherAgeTextField,teacherPhoneTextField)));
 		
@@ -251,6 +245,7 @@ public class PhoneBook extends JFrame {
 		teacherPanel.add(buttonAddTeacher);
 		
 		JButton buttonUpdateTeacher = new JButton("UPDATE");
+		buttonUpdateTeacher.setToolTipText("update existing teacher entry");
 		buttonUpdateTeacher.setBounds(263, 74, 94, 29);
 		buttonUpdateTeacher.setOpaque(true);
 		buttonUpdateTeacher.setBackground(new Color(0, 128, 0));
@@ -261,6 +256,7 @@ public class PhoneBook extends JFrame {
 
 		
 		JButton buttonClear = new JButton("CLEAR");
+		buttonClear.setToolTipText("clear input in GUI");
 		buttonClear.setOpaque(true);
 		buttonClear.setBackground(new Color(0, 0, 255));
 		buttonClear.addActionListener(new ActionListener() {
@@ -285,6 +281,7 @@ public class PhoneBook extends JFrame {
 		StudentPanel.add(studentNameLabel);
 		
 		studentNameTextField = new JTextField();
+		studentNameTextField.setToolTipText("student name < 30 bytes");
 		studentNameTextField.setColumns(10);
 		studentNameTextField.setBounds(97, 6, 130, 26);
 		StudentPanel.add(studentNameTextField);
@@ -306,26 +303,31 @@ public class PhoneBook extends JFrame {
 		StudentPanel.add(studentAgeLabel);
 		
 		studentSchoolTextField = new JTextField();
+		studentSchoolTextField.setToolTipText("school name String < 30 bytes");
 		studentSchoolTextField.setColumns(10);
 		studentSchoolTextField.setBounds(97, 37, 130, 26);
 		StudentPanel.add(studentSchoolTextField);
 		
 		studentPhoneTextField = new JTextField();
+		studentPhoneTextField.setToolTipText("phone number need to be String <30 byte");
 		studentPhoneTextField.setColumns(10);
 		studentPhoneTextField.setBounds(97, 94, 130, 26);
 		StudentPanel.add(studentPhoneTextField);
 		
 		studentGradeTextField = new JTextField();
+		studentGradeTextField.setToolTipText("grade integer (1-12)");
 		studentGradeTextField.setColumns(10);
 		studentGradeTextField.setBounds(97, 62, 130, 26);
 		StudentPanel.add(studentGradeTextField);
 		
 		studentAgeTextField = new JTextField();
+		studentAgeTextField.setToolTipText("student age integer < 22");
 		studentAgeTextField.setBounds(97, 127, 130, 26);
 		StudentPanel.add(studentAgeTextField);
 		studentAgeTextField.setColumns(10);
 		
 		JButton buttonAddStudent = new JButton("ADD");
+		buttonAddStudent.setToolTipText("add student entry");
 		buttonAddStudent.addMouseListener((new StudentAddEvent(studentNameTextField,studentSchoolTextField,
 				studentGradeTextField,studentAgeTextField,studentPhoneTextField)));
 
@@ -335,6 +337,7 @@ public class PhoneBook extends JFrame {
 		StudentPanel.add(buttonAddStudent);
 		
 		JButton buttonUpdateStudent = new JButton("UPDATE");
+		buttonUpdateStudent.setToolTipText("update existing student entry");
 		buttonUpdateStudent.addMouseListener((new StudentUpdateEvent(studentNameTextField,studentSchoolTextField,
 				studentGradeTextField,studentAgeTextField,studentPhoneTextField)));
 
@@ -344,6 +347,7 @@ public class PhoneBook extends JFrame {
 		StudentPanel.add(buttonUpdateStudent);
 		
 		JButton buttonClearStudent = new JButton("CLEAR");
+		buttonClearStudent.setToolTipText("clear current GUI input");
 		buttonClearStudent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -359,19 +363,22 @@ public class PhoneBook extends JFrame {
 		StudentPanel.add(buttonClearStudent);
 		
 		txtName = new JTextField();
+		txtName.setToolTipText("enter name");
 		txtName.setBounds(66, 29, 101, 26);
 		txtName.setName("Name");
 		txtName.setInheritsPopupMenu(true);
 		txtName.setColumns(10);
 		
-		textPhone = new JTextField();
-		textPhone.setBounds(66, 66, 101, 26);
-		textPhone.setName("Phone");
-		textPhone.setInheritsPopupMenu(true);
-		textPhone.setColumns(10);
+		textSchool = new JTextField();
+		textSchool.setToolTipText("key in phone number");
+		textSchool.setBounds(66, 66, 101, 26);
+		textSchool.setName("Phone");
+		textSchool.setInheritsPopupMenu(true);
+		textSchool.setColumns(10);
 		
 		JButton btnSearchName = new JButton("Search by Name");
-		btnSearchName.addMouseListener((new SearchEvent(txtName, infoTextArea)));
+		btnSearchName.setToolTipText("search entry by name");
+		btnSearchName.addMouseListener((new SearchAnyEvent(txtName, infoTextArea,"name")));
 
 		btnSearchName.setBounds(179, 29, 128, 29);
 		btnSearchName.setOpaque(true);
@@ -381,13 +388,13 @@ public class PhoneBook extends JFrame {
 		JLabel nameLabel = new JLabel("NAME");
 		nameLabel.setBounds(17, 34, 37, 16);
 		searchPanel.add(nameLabel);
-		searchPanel.add(textPhone);
+		searchPanel.add(textSchool);
 		searchPanel.add(txtName);
 		searchPanel.add(btnSearchName);
 		
-		JLabel phoneLabel = new JLabel("PHONE");
-		phoneLabel.setBounds(17, 71, 61, 16);
-		searchPanel.add(phoneLabel);
+		JLabel schoolLabel = new JLabel("SCHOOL");
+		schoolLabel.setBounds(6, 71, 61, 16);
+		searchPanel.add(schoolLabel);
 		
 		JLabel yueyangPictureLabel = new JLabel("");
 		ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/yueyangyu2.png").getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
@@ -396,42 +403,53 @@ public class PhoneBook extends JFrame {
 		yueyangPictureLabel.setBounds(328, 24, 86, 79);
 		searchPanel.add(yueyangPictureLabel);
 		contentPane.setLayout(null);
-		contentPane.add(tablePanel);
 		contentPane.add(deletePanel);
 		contentPane.add(addPanel);
 		contentPane.add(searchPanel);
 		
-		JButton btnSearchByPhone = new JButton("Search by Phone");
-		btnSearchByPhone.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String phone = textPhone.getText();
-				PhoneBookManager manager=PhoneBookManager.createManagerInst();
-				String srchResult = manager.searchPhone(phone);
-				if(srchResult == null)
-				{
-					infoTextArea.append("Search Failed: info does not exist.\n");
-				}
-				else
-				{
-					infoTextArea.append("Search by Phone Completed:\n");
-					infoTextArea.append(srchResult);
-					infoTextArea.append("\n");
-				}
-			}
-		});
-		btnSearchByPhone.setOpaque(true);
-		btnSearchByPhone.setBackground(new Color(0, 128, 0));
-		btnSearchByPhone.setBounds(179, 66, 128, 29);
-		searchPanel.add(btnSearchByPhone);
+		JButton btnSearchBySchool = new JButton("Search by School");
+		btnSearchBySchool.setToolTipText("search entry by school name");
+		btnSearchBySchool.addMouseListener((new SearchAnyEvent(textSchool, infoTextArea,"school")));		
+		
+		btnSearchBySchool.setOpaque(true);
+		btnSearchBySchool.setBackground(new Color(0, 128, 0));
+		btnSearchBySchool.setBounds(179, 66, 137, 29);
+		searchPanel.add(btnSearchBySchool);
+		
+		JLabel lblType = new JLabel("TYPE");
+		lblType.setBounds(17, 104, 61, 16);
+		searchPanel.add(lblType);
+		
+		textType = new JTextField();
+		textType.setToolTipText("key in phone number");
+		textType.setName("Type");
+		textType.setInheritsPopupMenu(true);
+		textType.setColumns(10);
+		textType.setBounds(66, 99, 101, 26);
+		searchPanel.add(textType);
+		
+		JButton btnSearchBytype = new JButton("Search byType");
+		btnSearchBytype.addMouseListener((new SearchAnyEvent(textType, infoTextArea,"type")));
+		
+		btnSearchBytype.setToolTipText("search entry by type");
+		btnSearchBytype.setOpaque(true);
+		btnSearchBytype.setBackground(new Color(0, 128, 0));
+		btnSearchBytype.setBounds(179, 99, 128, 29);
+		searchPanel.add(btnSearchBytype);
 		searchPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtName}));
 		contentPane.add(infoPanel);
 		
 		infoTextArea = new JTextArea();
+		infoTextArea.setBackground(new Color(224, 255, 255));
 		infoPanel.setViewportView(infoTextArea);
 		contentPane.add(exportPanel);
 		
 		JButton btnPrintOutPhone = new JButton("Print Out Phone Book");
+		btnPrintOutPhone.setToolTipText("click to print out whole phone book list in Jtable");
+		btnPrintOutPhone.setForeground(new Color(0, 0, 255));
+		btnPrintOutPhone.setFont(new Font("Lucida Grande", Font.BOLD, 16));
+		btnPrintOutPhone.setOpaque(true);
+		btnPrintOutPhone.setBackground(new Color(0, 128, 0));
 		btnPrintOutPhone.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -444,7 +462,7 @@ public class PhoneBook extends JFrame {
 				}
 			}
 		});
-		btnPrintOutPhone.setBounds(6, 431, 188, 29);
+		btnPrintOutPhone.setBounds(329, 495, 200, 44);
 		contentPane.add(btnPrintOutPhone);
 	}
 }

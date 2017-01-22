@@ -1,13 +1,7 @@
 
-import java.util.Scanner;
-import java.util.Vector;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.io.*;
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import javax.swing.border.*;
 
 
 class PhoneBookManager
@@ -15,6 +9,7 @@ class PhoneBookManager
 	private final File dataFile = new File("src/inputPhoneBook.dat");
 	private final File outdataFile = new File("src/outputPhoneBook.dat");
 	HashSet<PhoneInfo> infoStorage = new HashSet<PhoneInfo>();
+	
 	
 	static PhoneBookManager inst = null;
 	public static PhoneBookManager createManagerInst()
@@ -45,6 +40,30 @@ class PhoneBookManager
 			return null;
 		else
 			return info.toString();
+	}
+	
+	public HashSet<PhoneInfo> searchAny(String srcString, String srcType)
+	{
+		HashSet<PhoneInfo> infoSearch = new HashSet<PhoneInfo>();
+		Iterator<PhoneInfo> itr = infoStorage.iterator();
+		while(itr.hasNext())
+		{
+			PhoneInfo curInfo=itr.next();
+			if (srcType.equals("name")) {
+				if(srcString.compareTo(curInfo.name) == 0)
+					infoSearch.add(curInfo);
+			}
+			else if (srcType.equals("type")) {
+				if(srcString.compareTo(curInfo.type) == 0)
+					infoSearch.add(curInfo);
+			}
+			else if (srcType.equals("school")) {
+				if(srcString.compareTo(curInfo.school) == 0)
+					infoSearch.add(curInfo);
+			}
+			
+		}
+		return infoSearch;
 	}
 	
 	public boolean deleteData(String name)
@@ -96,6 +115,7 @@ class PhoneBookManager
 			while(itr.hasNext())
 				out.writeObject(itr.next());			
 			out.close();
+			PhoneBook.infoTextArea.append("export data from infoStrige to output data file successfully \n");
 		}
 		catch(IOException e)
 		{
@@ -117,8 +137,11 @@ class PhoneBookManager
 				if(info == null)
 					break;
 				infoStorage.add(info);
+				PhoneBook.infoTextArea.append("read data from input data file into infoStroge successfully \n");
 			}
+			
 			in.close();
+			
 		}
 		catch(IOException e)
 		{

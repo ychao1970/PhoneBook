@@ -1,18 +1,14 @@
 
 
-import java.util.Scanner;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.io.*;
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import javax.swing.border.*;
 
 
 class PhoneInfo implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String name;
 	String phoneNumber;
 	String school;
