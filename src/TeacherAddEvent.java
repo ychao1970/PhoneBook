@@ -1,0 +1,125 @@
+
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.IOException;
+
+
+class TeacherAddEvent extends MouseAdapter {
+	JTextField nameField;
+	JTextField majorField;
+	JTextField ageField;
+	JTextField schoolField;
+	JTextField phoneField;
+	JTextArea textArea;
+
+	public TeacherAddEvent(JTextField name, JTextField school,JTextField major,JTextField age,JTextField phone) {
+		nameField = name;
+		schoolField = school;
+		ageField = age;
+		majorField = major;
+		phoneField = phone;
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		boolean isAdded = false;	
+		boolean dataValid = true;
+		PhoneInfo info;
+		String name = nameField.getText();
+		String school = schoolField.getText();
+		String major = majorField.getText();
+		String phone = phoneField.getText();
+		String age = ageField.getText();
+		String type = "teacher";
+		
+		PhoneBookManager manager = PhoneBookManager.createManagerInst();
+		StringBuilder infoBoard = new StringBuilder("you have add ");
+		
+		if (name.length() > 30 || name.length() <= 0) {
+			infoBoard.append("you input teacher name " + name + " is too long, longer than 30 or is null \n");
+			PhoneBook.infoTextArea.append(infoBoard.toString());
+			PhoneBook.infoTextArea.append("\n");
+			dataValid = false;
+		}
+		if (school.length() > 30 || school.length() <= 0) {
+			infoBoard.append("you input teacher school name " + school + " is too long, longer than 30 or is null \n");
+			PhoneBook.infoTextArea.append(infoBoard.toString());
+			PhoneBook.infoTextArea.append("\n");
+			dataValid = false;
+		}
+		if (major.length() > 30 || major.length() <= 0) {
+			infoBoard.append("you input major " + major + " is too long longer than 30  or is null\n");
+			PhoneBook.infoTextArea.append(infoBoard.toString());
+			PhoneBook.infoTextArea.append("\n");
+			dataValid = false;
+		}
+		if (phone.length() > 12 || phone.length() <= 0) {
+			infoBoard.append("you input teacher phone number " + phone + " is too long, longer than 12 or is null\n");
+			PhoneBook.infoTextArea.append(infoBoard.toString());
+			PhoneBook.infoTextArea.append("\n");
+			dataValid = false;
+		}
+		try {
+		    if (Integer.parseInt(age) < 18 || Integer.parseInt(age) >100) {
+				infoBoard.append("you input teacher age " + age + " is invalid \n");
+				PhoneBook.infoTextArea.append(infoBoard.toString());
+				PhoneBook.infoTextArea.append("\n");
+				dataValid = false;
+			}
+		} catch (NumberFormatException e1) {
+			infoBoard.append("you input teacher age " + age + " is invalid \n");
+			PhoneBook.infoTextArea.append(infoBoard.toString());
+			PhoneBook.infoTextArea.append("\n");
+			System.out.println("input age is not valid interger");
+		    dataValid = false;
+		}
+
+		/* check if the name already in database
+		 * show error message in infoBoard if name already in database, and set dataValid to false
+		 */
+		if (manager.searchData(name) != null) {
+			infoBoard.append("already have this name " +name + " please input another name info \n");
+			PhoneBook.infoTextArea.append(infoBoard.toString());
+			PhoneBook.infoTextArea.append("\n");
+			dataValid = false;
+		}
+		
+		
+		if(dataValid)
+		{					
+			info = new PhoneInfoTeacher(name, phone, major, Integer.parseInt(age),major, type);
+			isAdded = manager.infoStorage.add(info);
+			PhoneBook.infoTextArea.append("Teacher Entry Add Completed.\n");
+			StringBuilder dataInput = new StringBuilder("input data is: \n");
+			dataInput.append("Teacher name is: " + name + "\n");
+			dataInput.append("Teacher school is: " + school + "\n");
+			dataInput.append("Teacher Phone is: " + phone + "\n");
+			dataInput.append("Teacher major is: " + major + "\n");
+			dataInput.append("Teacher age is: " + age + "\n");
+			PhoneBook.infoTextArea.append(dataInput.toString());
+			PhoneBook.infoTextArea.append("\n");
+		
+		} else {
+			PhoneBook.infoTextArea.append("input data has invalid enter, please change and add again\n");
+			PhoneBook.infoTextArea.append("\n");
+		}
+		
+		if(isAdded)
+		{
+			PhoneBook.infoTextArea.append("input data has been added successfully\n");
+			try {
+				manager.printInfoStorage();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		} 
+		else 
+		{
+			PhoneBook.infoTextArea.append("input data has not been added, Failed");
+			PhoneBook.infoTextArea.append("\n");
+		}
+		
+	}
+}
