@@ -15,22 +15,36 @@ class PhoneInfo implements Serializable
 {
 	String name;
 	String phoneNumber;
+	String school;
+	String grade;
+	String age;
+	String type;
 	
-	public PhoneInfo(String name, String num)
+	
+	public PhoneInfo(String name, String num,String school,String grade, String age, String type)
 	{
 		this.name = name;
-		phoneNumber = num;
+		this.phoneNumber = num;
+		this.school = school;
+		this.grade = grade;
+		this.age = age;
+		this.type = type;
 	}
 	
 	public void showPhoneInfo()
 	{
 		System.out.println("name: "+name);
 		System.out.println("phone: "+phoneNumber);
+		System.out.println("school: "+school);
+		System.out.println("grade: "+grade);
+		System.out.println("age: "+age);
+		System.out.println("type: "+type);
 	}
 	
 	public String toString()
 	{
-		return "name: "+name+'\n'+"phone: "+phoneNumber+'\n';
+		return "name: "+name+'\n'+"phone: "+phoneNumber+'\n' +"school: "+school+'\n' +"grade: "+grade+'\n' 
+				+"age: "+age+'\n' +"type: "+type+'\n';
 	}
 	
 	public int hashCode()

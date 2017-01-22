@@ -26,7 +26,7 @@ class PhoneBookManager
 	
 	private PhoneBookManager()
 	{
-		readFromFile();
+		
 	}
 
 	public String searchData(String name)
@@ -135,5 +135,10 @@ class PhoneBookManager
 		while(itr.hasNext())
 			System.out.println(itr.next());
 		
+	}
+	
+	public void printPhoneBookTable() throws IOException {
+		PrintPhoneBook frame = new PrintPhoneBook(infoStorage);
+		frame.setVisible(true);
 	}
 }

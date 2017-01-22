@@ -93,7 +93,8 @@ public class PhoneBook extends JFrame {
 		JPanel searchPanel = new JPanel();
 		searchPanel.setBounds(11, 11, 420, 116);
 		searchPanel.setBackground(new Color(30, 144, 255));
-		searchPanel.setBorder(new TitledBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "SEARCH", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "SEARCH", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		searchPanel.setBorder(new TitledBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), 
+				"SEARCH", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)), "SEARCH", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		JPanel addPanel = new JPanel();
 		addPanel.setBounds(11, 139, 420, 224);
@@ -144,6 +145,7 @@ public class PhoneBook extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				PhoneBookManager manager = PhoneBookManager.createManagerInst();
+				manager.readFromFile();
 			}
 		});
 		importDataButton.setOpaque(true);
@@ -216,7 +218,7 @@ public class PhoneBook extends JFrame {
 		teacherPhoneLabel.setBounds(28, 97, 48, 16);
 		teacherPanel.add(teacherPhoneLabel);
 		
-		JLabel teacherMajorLabel = new JLabel("MAJOR");
+		JLabel teacherMajorLabel = new JLabel("GRADE");
 		teacherMajorLabel.setBounds(28, 66, 43, 16);
 		teacherPanel.add(teacherMajorLabel);
 		
@@ -240,7 +242,8 @@ public class PhoneBook extends JFrame {
 		teacherPanel.add(teacherMajorTextField);
 		
 		JButton buttonAddTeacher = new JButton("ADD");
-		buttonAddTeacher.addMouseListener((new TeacherAddEvent(teacherNameTextField,teacherSchoolTextField,teacherMajorTextField,teacherAgeTextField,teacherPhoneTextField)));
+		buttonAddTeacher.addMouseListener((new TeacherAddEvent(teacherNameTextField,teacherSchoolTextField,
+				teacherMajorTextField,teacherAgeTextField,teacherPhoneTextField)));
 		
 		buttonAddTeacher.setBounds(270, 33, 75, 29);
 		buttonAddTeacher.setOpaque(true);
@@ -253,7 +256,8 @@ public class PhoneBook extends JFrame {
 		buttonUpdateTeacher.setBackground(new Color(0, 128, 0));
 		teacherPanel.add(buttonUpdateTeacher);
 
-		buttonUpdateTeacher.addMouseListener((new TeacherUpdateEvent(teacherNameTextField,teacherSchoolTextField,teacherMajorTextField,teacherAgeTextField,teacherPhoneTextField)));
+		buttonUpdateTeacher.addMouseListener((new TeacherUpdateEvent(teacherNameTextField,teacherSchoolTextField,
+				teacherMajorTextField,teacherAgeTextField,teacherPhoneTextField)));
 
 		
 		JButton buttonClear = new JButton("CLEAR");
@@ -322,7 +326,8 @@ public class PhoneBook extends JFrame {
 		studentAgeTextField.setColumns(10);
 		
 		JButton buttonAddStudent = new JButton("ADD");
-		buttonAddStudent.addMouseListener((new StudentAddEvent(studentNameTextField,studentSchoolTextField,studentGradeTextField,studentAgeTextField,studentPhoneTextField)));
+		buttonAddStudent.addMouseListener((new StudentAddEvent(studentNameTextField,studentSchoolTextField,
+				studentGradeTextField,studentAgeTextField,studentPhoneTextField)));
 
 		buttonAddStudent.setOpaque(true);
 		buttonAddStudent.setBackground(new Color(0, 128, 0));
@@ -330,40 +335,9 @@ public class PhoneBook extends JFrame {
 		StudentPanel.add(buttonAddStudent);
 		
 		JButton buttonUpdateStudent = new JButton("UPDATE");
-		buttonUpdateStudent.addMouseListener((new StudentUpdateEvent(studentNameTextField,studentSchoolTextField,studentGradeTextField,studentAgeTextField,studentPhoneTextField)));
+		buttonUpdateStudent.addMouseListener((new StudentUpdateEvent(studentNameTextField,studentSchoolTextField,
+				studentGradeTextField,studentAgeTextField,studentPhoneTextField)));
 
-//		buttonUpdateStudent.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				StringBuilder infoBoard = new StringBuilder("in student panel, you have updated ");
-//				if (studentNameTextField.getText().length() > 30) {
-//					infoBoard.append("you input student name is too long, longer than 30 \n");
-//					infoTextArea.append(infoBoard.toString());
-//				}
-//				else if (studentSchoolTextField.getText().length() > 30) {
-//					infoBoard.append("you input student school name is too long, longer than 30 \n");
-//					infoTextArea.append(infoBoard.toString());
-//				}
-//				else if (studentGradeTextField.getText().length() > 30) {
-//					infoBoard.append("you input student name is too long, longer than 30 \n");
-//					infoTextArea.append(infoBoard.toString());
-//				}
-//				else if (studentPhoneTextField.getText().length() > 12) {
-//					infoBoard.append("you input student phone number  is too long, longer than 12 \n");
-//					infoTextArea.append(infoBoard.toString());
-//				}
-//				else if (studentNameTextField.getText().equals("yueyang")) {
-//					infoBoard.append("already have this name " +studentNameTextField.getText() + " please input another student name info \n");
-//					infoTextArea.append(infoBoard.toString());
-//				} else {
-//					infoBoard.append(studentNameTextField.getText() + "\n");
-//					infoBoard.append(studentSchoolTextField.getText() + "\n");
-//					infoBoard.append(studentPhoneTextField.getText() + "\n");
-//					infoBoard.append(studentGradeTextField.getText() + "\n");
-//					infoTextArea.append(infoBoard.toString());
-//				}				
-//			}
-//		});
 		buttonUpdateStudent.setOpaque(true);
 		buttonUpdateStudent.setBackground(new Color(0, 128, 0));
 		buttonUpdateStudent.setBounds(266, 75, 94, 29);
@@ -383,8 +357,6 @@ public class PhoneBook extends JFrame {
 		buttonClearStudent.setBackground(Color.BLUE);
 		buttonClearStudent.setBounds(252, 122, 117, 29);
 		StudentPanel.add(buttonClearStudent);
-		
-	
 		
 		txtName = new JTextField();
 		txtName.setBounds(66, 29, 101, 26);
@@ -465,7 +437,8 @@ public class PhoneBook extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				PhoneBookManager manager=PhoneBookManager.createManagerInst();
 				try {
-					manager.printInfoStorage();
+	//				manager.printInfoStorage();
+					manager.printPhoneBookTable();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

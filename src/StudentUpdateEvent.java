@@ -97,7 +97,7 @@ class StudentUpdateEvent extends MouseAdapter {
 		
 		if(dataValid)
 		{					
-			info = new PhoneInfoStudent(name, phone, school, Integer.parseInt(age),Integer.parseInt(grade), type);
+			info = new PhoneInfo(name, phone, school, age,grade, type);
 			/* 
 			 * delete existing entry before add new == update entry
 			 */

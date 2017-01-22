@@ -12,14 +12,15 @@ class TeacherUpdateEvent extends MouseAdapter {
 	JTextField phoneField;
 	JTextArea textArea;
 
-	public TeacherUpdateEvent(JTextField name, JTextField school,JTextField major,JTextField age,JTextField phone) {
+	public TeacherUpdateEvent(JTextField name, JTextField school,JTextField grade,JTextField age,JTextField phone) {
 		nameField = name;
 		schoolField = school;
 		ageField = age;
-		majorField = major;
+		majorField = grade;
 		phoneField = phone;
 
 	}
+	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -29,7 +30,7 @@ class TeacherUpdateEvent extends MouseAdapter {
 		PhoneInfo info;
 		String name = nameField.getText();
 		String school = schoolField.getText();
-		String major = majorField.getText();
+		String grade = majorField.getText();
 		String phone = phoneField.getText();
 		String age = ageField.getText();
 		String type = "teacher";
@@ -49,11 +50,19 @@ class TeacherUpdateEvent extends MouseAdapter {
 			PhoneBook.infoTextArea.append("\n");
 			dataValid = false;
 		}
-		if (major.length() > 30 || major.length() <= 0) {
-			infoBoard.append("you input major " + major + " is too long longer than 30  or is null\n");
+		try {
+		    if (Integer.parseInt(grade) > 18 || Integer.parseInt(grade) <=0) {
+				infoBoard.append("you input grade " + grade + " is invalid \n");
+				PhoneBook.infoTextArea.append(infoBoard.toString());
+				PhoneBook.infoTextArea.append("\n");
+				dataValid = false;
+			}
+		} catch (NumberFormatException e1) {
+			infoBoard.append("you input student grade " + grade + " is invalid \n");
 			PhoneBook.infoTextArea.append(infoBoard.toString());
 			PhoneBook.infoTextArea.append("\n");
-			dataValid = false;
+			System.out.println("input age is not valid interger");
+		    dataValid = false;
 		}
 		if (phone.length() > 12 || phone.length() <= 0) {
 			infoBoard.append("you input teacher phone number " + phone + " is too long, longer than 12 or is null\n");
@@ -89,7 +98,7 @@ class TeacherUpdateEvent extends MouseAdapter {
 		
 		if(dataValid)
 		{					
-			info = new PhoneInfoTeacher(name, phone, major, Integer.parseInt(age),major, type);
+			info = new PhoneInfo(name, phone, school, grade,age,type);
 			/* 
 			 * delete existing entry before add new == update entry
 			 */
@@ -102,7 +111,7 @@ class TeacherUpdateEvent extends MouseAdapter {
 				dataInput.append("Teacher name is: " + name + "\n");
 				dataInput.append("Teacher school is: " + school + "\n");
 				dataInput.append("Teacher Phone is: " + phone + "\n");
-				dataInput.append("Teacher major is: " + major + "\n");
+				dataInput.append("Teacher grade is: " + grade + "\n");
 				dataInput.append("Teacher age is: " + age + "\n");
 				PhoneBook.infoTextArea.append(dataInput.toString());
 				PhoneBook.infoTextArea.append("\n");
